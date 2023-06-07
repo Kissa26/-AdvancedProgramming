@@ -16,7 +16,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<String> registerUsser(@RequestParam String email,
+    public ResponseEntity<String> registerUser(@RequestParam String email,
                                                 @RequestParam String passwd ,
                                                 @RequestParam String confirmPasswd){
 
