@@ -32,15 +32,15 @@ public class UserService {
         addUser(userNew);
         return "User signed-in successfully!";
     }
-    public String signin(String passwd,String email) {
+    public String signin(String email,String passwd) {
 
-        Optional<UserEntity> userOpt = userRepo.findById(email);
+        UserEntity userOpt = userRepo.findFirstByMail(email);
 
-        if (userOpt.isEmpty()) {
+        if (userOpt==null) {
             return "The email is not in the database!";
         }
-        UserEntity userEntity = userOpt.get();
-        if(!userEntity.getPassword().equals(passwd))
+
+        if(!userOpt.getPassword().equals(passwd))
         {
             return "Incorrect password";
         }
