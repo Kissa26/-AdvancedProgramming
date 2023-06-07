@@ -15,6 +15,35 @@ public class UserService {
     @Autowired
     private UserRepo userRepo;
 
+    public String register(String passwd,String email, String confirmpasswd) {
+
+        Optional<UserEntity> userOpt = userRepo.findById(email);
+
+        if (userOpt.isPresent()) {
+            return "The email already exists!";
+        }
+        if(!passwd.equals(confirmpasswd))
+        {
+            return "Passwords do not match";
+        }
+        User userNew= new User(email,passwd,true);
+        addUser(userNew);
+        return "User signed-in successfully!";
+    }
+    public String signin(String passwd,String email) {
+
+        Optional<UserEntity> userOpt = userRepo.findById(email);
+
+        if (userOpt.isEmpty()) {
+            return "The email is not in the database!";
+        }
+        UserEntity userEntity = userOpt.get();
+        if(!userEntity.getPassword().equals(passwd))
+        {
+            return "Incorrect password";
+        }
+        return "User signed-in successfully!";
+    }
     public String addUser(User user) {
 
         userRepo.save(new UserEntity(user.getEmail(), user.getPassword(), user.isLoged()));

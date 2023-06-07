@@ -3,12 +3,11 @@ package com.example.proiectJava;
 import com.example.proiectJava.ui.MainWindow;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 import java.awt.*;
 
 @SpringBootApplication
-@EnableWebSecurity
+
 public class ProiectJavaApplication {
 
     public static void main(String[] args) {

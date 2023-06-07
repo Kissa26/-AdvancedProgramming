@@ -4,12 +4,7 @@ import com.example.proiectJava.business.User;
 import com.example.proiectJava.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,16 +15,25 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    @PostMapping("/register")
+    public ResponseEntity<String> registerUsser(@RequestParam String email,
+                                                @RequestParam String passwd ,
+                                                @RequestParam String confirmPasswd){
+
+        String status = userService.register(email, passwd, confirmPasswd);
+
+        return ResponseEntity.ok().body(status);
+
+    }
 
     @PostMapping("/signin")
-    public ResponseEntity<String> authenticateUser(@RequestBody User user) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
+    public ResponseEntity<String> authenticateUser(@RequestParam String email, @RequestParam String passwd){
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        return new ResponseEntity<>("User signed-in successfully!.", HttpStatus.OK);
+        String status = userService.signin(email, passwd);
+
+        return ResponseEntity.ok().body(status);
     }
+
 
     @PostMapping(value = "/user")
     public ResponseEntity<Object> addUser(@Valid @RequestBody User user) {
