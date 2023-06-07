@@ -2,8 +2,6 @@ package com.example.proiectJava.ui;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class SignUp extends JPanel {
     JFrame parent;
@@ -15,11 +13,6 @@ public class SignUp extends JPanel {
     JPasswordField pfRewritePassword = new JPasswordField(30);
     JButton bRegister = new JButton("Register");
     JButton bLogin = new JButton("Login");
-
-    public Boolean getLogin() {
-        return isLogin;
-    }
-
     Boolean isLogin;
     Image img;
     public SignUp(JFrame parent, boolean isLogin) {
@@ -39,30 +32,36 @@ public class SignUp extends JPanel {
         lRewritePassword.setFont(new Font("Arial", Font.PLAIN, 20));
 
         bRegister.addActionListener(e -> {
-            if(getLogin()) {
+            if (getLogin()) {
                 setLogin(false);
                 InitUi();
                 validate();
                 repaint();
-            }
-            else {
+            } else {
                 System.out.println("S a apasat register");
             }
         });
 
         bLogin.addActionListener(e -> {
-            if(!getLogin()) {
+            if (!getLogin()) {
                 setLogin(true);
                 InitUi();
                 validate();
                 repaint();
-            }
-            else {
+            } else {
                 System.out.println("S a apasat login");
             }
         });
 
         InitUi();
+    }
+
+    public Boolean getLogin() {
+        return isLogin;
+    }
+
+    public void setLogin(Boolean login) {
+        isLogin = login;
     }
 
     public void InitUi() {
@@ -105,9 +104,6 @@ public class SignUp extends JPanel {
         constraints.anchor = GridBagConstraints.CENTER;
         constraints.gridwidth = 2;
         add(buttons, constraints);
-    }
-    public void setLogin(Boolean login) {
-        isLogin = login;
     }
 
     public void paintComponent(Graphics g) {

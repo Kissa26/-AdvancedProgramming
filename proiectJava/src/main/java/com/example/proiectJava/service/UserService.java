@@ -48,10 +48,7 @@ public class UserService {
     }
     public String addUser(User user) {
 
-        userRepo.save(new UserEntity(user.getEmail(),
-                user.getPassword(),
-                user.isLoged()));
-
+        userRepo.save(new UserEntity(user.getEmail(), user.getPassword(), user.isLoged()));
         return "Successfully registered!";
     }
 

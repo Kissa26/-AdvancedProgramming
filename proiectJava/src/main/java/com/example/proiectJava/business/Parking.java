@@ -17,7 +17,7 @@ public class Parking {
 
     @NotNull(message = "Latitude position cannot be null")
     private double lat;
-    
+
     @NotNull
     private int maxParkingLot;
 
@@ -25,13 +25,7 @@ public class Parking {
     private int currentParkingLot;
 
     public static Parking fromParkingEntity(@NotNull ParkingEntity entity) {
-        return Parking.builder()
-                .name(entity.getName())
-                .log(entity.getLog())
-                .lat(entity.getLat())
-                .maxParkingLot(entity.getMaxParkingLot())
-                .currentParkingLot(entity.getCurrentParkingLot())
-                .build();
+        return Parking.builder().name(entity.getName()).log(entity.getLog()).lat(entity.getLat()).maxParkingLot(entity.getMaxParkingLot()).currentParkingLot(entity.getCurrentParkingLot()).build();
     }
 
 }
