@@ -2,6 +2,13 @@ package com.example.proiectJava.ui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class SignUp extends JPanel {
     JFrame parent;
@@ -38,7 +45,7 @@ public class SignUp extends JPanel {
                 validate();
                 repaint();
             } else {
-                System.out.println("S a apasat register");
+                performRegisterAction(tfEmail.getText(), new String(pfPassword.getPassword()), new String(pfRewritePassword.getPassword()));
             }
         });
 
@@ -108,5 +115,45 @@ public class SignUp extends JPanel {
 
     public void paintComponent(Graphics g) {
         g.drawImage(img, 0, 0, null);
+    }
+
+    private void performRegisterAction(String email, String password, String confirmPasswd) {
+        try {
+            URL url = new URL("http://localhost:8081/register");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Content-Type", "application/json");
+            String requestBody = ("{\"email\": \"" + email +
+                    "\", \"passwd\": \"" + password +
+                    "\", \"confirmPasswd\": \"" + confirmPasswd + "\"}");
+            connection.setDoOutput(true);
+
+            OutputStream outputStream = connection.getOutputStream();
+            outputStream.write(requestBody.getBytes());
+            outputStream.flush();
+            outputStream.close();
+
+            int responseCode = connection.getResponseCode();
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            StringBuilder response = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                response.append(line);
+            }
+            reader.close();
+
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                setLogin(true);
+                InitUi();
+                validate();
+                repaint();
+            }
+
+            JOptionPane.showMessageDialog(this, response);
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+            JOptionPane.showMessageDialog(this, "An error occurred inr registration");
+        }
     }
 }

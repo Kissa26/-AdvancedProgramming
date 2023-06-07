@@ -22,7 +22,7 @@ public class MainWindow extends JFrame{
         panel.add(menuView, "menu");
         panel.add(reserveView, "reserve");
         panel.add(signUp, "signUp");
-        cl.show(panel, "reserve");
+        cl.show(panel, "signUp");
         add(panel);
     }
 }
