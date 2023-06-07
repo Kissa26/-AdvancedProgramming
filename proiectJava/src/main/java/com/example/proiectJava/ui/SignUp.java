@@ -1,14 +1,16 @@
 package com.example.proiectJava.ui;
 
+import org.springframework.security.core.context.SecurityContextHolder;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 public class SignUp extends JPanel {
     MainWindow parent;
@@ -22,9 +24,9 @@ public class SignUp extends JPanel {
     JButton bLogin = new JButton("Login");
     Boolean isLogin;
     Image img;
-    public SignUp(MainWindow parent, boolean isLogin) {
+    public SignUp(MainWindow parent) {
         this.parent = parent;
-        this.isLogin = isLogin;
+        this.isLogin = SecurityContextHolder.getContext().getAuthentication() != null;
 
         ImageIcon image = new ImageIcon("src/main/resources/background.png");
         img = image.getImage();
@@ -148,6 +150,7 @@ public class SignUp extends JPanel {
                 repaint();
             }
             JOptionPane.showMessageDialog(this, response);
+            connection.disconnect();
         } catch (IOException e) {
             System.err.println(e.getMessage());
             JOptionPane.showMessageDialog(this, "An error occurred in registration");
@@ -177,7 +180,10 @@ public class SignUp extends JPanel {
             if (responseCode == HttpURLConnection.HTTP_OK & response.toString().equals("User signed-in successfully!")) {
                 parent.changeView("reserve");
             }
-            JOptionPane.showMessageDialog(this, response);
+            else {
+                JOptionPane.showMessageDialog(this, response.toString());
+            }
+            connection.disconnect();
         } catch (IOException e) {
             System.err.println(e.getMessage());
             JOptionPane.showMessageDialog(this, "An error occurred in sign-in");

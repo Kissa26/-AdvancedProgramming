@@ -2,11 +2,15 @@ package com.example.proiectJava.business;
 
 import com.example.proiectJava.entity.ParkingEntity;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Parking {
 
     @NotNull(message = "Parking Name cannot be null")

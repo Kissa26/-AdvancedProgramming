@@ -5,6 +5,9 @@ import com.example.proiectJava.entity.UserEntity;
 import com.example.proiectJava.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -38,6 +41,8 @@ public class UserService {
         if (!userOpt.getPassword().equals(passwd)) {
             return "Incorrect password";
         }
+        Authentication authentication = new UsernamePasswordAuthenticationToken(userOpt.getId(), passwd);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
         return "User signed-in successfully!";
     }
 

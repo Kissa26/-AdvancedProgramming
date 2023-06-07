@@ -3,10 +3,7 @@ package com.example.proiectJava.controller;
 import com.example.proiectJava.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Validated
@@ -23,5 +20,10 @@ public class ReservationController {
     public String finishReservation(@RequestParam String idReservation) {
 
         return reservationService.finishReservation(idReservation);
+    }
+
+    @GetMapping(value ="/reservations")
+    public String getActiveReservation(@RequestParam String idUser, @RequestParam String idParking) {
+        return reservationService.getActiveReservation(idUser, idParking);
     }
 }

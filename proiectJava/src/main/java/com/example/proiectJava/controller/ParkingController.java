@@ -1,6 +1,7 @@
 package com.example.proiectJava.controller;
 
 import com.example.proiectJava.business.Parking;
+import com.example.proiectJava.entity.ParkingEntity;
 import com.example.proiectJava.service.ParkingService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +21,12 @@ public class ParkingController {
 
     @GetMapping(value = "/parkings")
     public List<Parking> getNearestParkings(@RequestParam double lat, @RequestParam double lon) {
-
         return parkingService.getNearestParkings(lon, lat);
+    }
+
+    @GetMapping(value = "/parkings/name")
+    public List<ParkingEntity> getByName(@RequestParam String name) {
+        return parkingService.getParkingByName(name);
     }
 
     @PostMapping("/parkings")

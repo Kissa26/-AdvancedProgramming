@@ -5,6 +5,7 @@ import com.example.proiectJava.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +31,6 @@ public class UserController {
     public ResponseEntity<String> authenticateUser(@RequestParam String email, @RequestParam String passwd){
 
         String status = userService.signIn(email, passwd);
-
         return ResponseEntity.ok().body(status);
     }
 
