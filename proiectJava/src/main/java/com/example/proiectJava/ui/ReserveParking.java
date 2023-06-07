@@ -181,7 +181,7 @@ public class ReserveParking extends JPanel {
             JOptionPane.showMessageDialog(this, "Too many parkings with the same name");
             return;
         }
-        String userId = "11881ed0-624c-431d-98a0-261434b7fb59";
+        String userId = "defb03ed-4bb4-4e96-b877-5c81d5e285ce";
 
         try {
             String urlString = "http://localhost:8081/reservations";
