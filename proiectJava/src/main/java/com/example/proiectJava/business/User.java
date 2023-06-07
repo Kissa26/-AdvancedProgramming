@@ -19,10 +19,6 @@ public class User {
     private boolean isLoged;
 
     public static User fromUserEntity(@NotNull UserEntity entity) {
-        return User.builder()
-                .email(entity.getMail())
-                .password(entity.getPassword())
-                .isLoged(entity.isLoged())
-                .build();
+        return User.builder().email(entity.getMail()).password(entity.getPassword()).isLoged(entity.isLoged()).build();
     }
 }

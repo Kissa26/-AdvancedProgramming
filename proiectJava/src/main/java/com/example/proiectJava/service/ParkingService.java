@@ -17,11 +17,7 @@ public class ParkingService {
 
     public List<Parking> getNearestParkings(double lon, double lat) {
 
-        return parkingRepo.findAll()
-                .stream()
-                .map(Parking::fromParkingEntity)
-                .sorted(Comparator.comparingDouble(p -> calculateDistance(lon, lat, p.getLog(), p.getLat())))
-                .collect(Collectors.toList());
+        return parkingRepo.findAll().stream().map(Parking::fromParkingEntity).sorted(Comparator.comparingDouble(p -> calculateDistance(lon, lat, p.getLog(), p.getLat()))).collect(Collectors.toList());
     }
 
     private double calculateDistance(double x1, double y1, double x2, double y2) {
@@ -32,11 +28,7 @@ public class ParkingService {
 
     public Parking addParking(Parking parking) {
 
-        ParkingEntity parkingEntity = parkingRepo.save(new ParkingEntity(parking.getName(),
-                parking.getLat(),
-                parking.getLog(),
-                parking.getMaxParkingLot(),
-                parking.getCurrentParkingLot()));
+        ParkingEntity parkingEntity = parkingRepo.save(new ParkingEntity(parking.getName(), parking.getLat(), parking.getLog(), parking.getMaxParkingLot(), parking.getCurrentParkingLot()));
 
         return Parking.fromParkingEntity(parkingEntity);
     }

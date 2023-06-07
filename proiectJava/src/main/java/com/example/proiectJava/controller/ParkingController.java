@@ -19,13 +19,12 @@ public class ParkingController {
 
 
     @GetMapping(value = "/parkings")
-    public List<Parking> getNearestParkings(@RequestParam double lat,
-                                            @RequestParam double lon) {
+    public List<Parking> getNearestParkings(@RequestParam double lat, @RequestParam double lon) {
 
         return parkingService.getNearestParkings(lon, lat);
     }
 
-    @PostMapping( "/parkings")
+    @PostMapping("/parkings")
     public ResponseEntity<Object> addParking(@Valid @RequestBody Parking parking) {
 
         System.out.println(parking);

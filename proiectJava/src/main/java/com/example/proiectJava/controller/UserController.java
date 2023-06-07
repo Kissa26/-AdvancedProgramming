@@ -22,10 +22,10 @@ public class UserController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
     @PostMapping("/signin")
-    public ResponseEntity<String> authenticateUser(@RequestBody User user){
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                user.getEmail(), user.getPassword()));
+    public ResponseEntity<String> authenticateUser(@RequestBody User user) {
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return new ResponseEntity<>("User signed-in successfully!.", HttpStatus.OK);

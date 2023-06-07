@@ -15,9 +15,7 @@ public class ReservationController {
     private ReservationService reservationService;
 
     @PostMapping(value = "/reservations")
-    public String reserveParkingLot(@RequestParam String idUser,
-                                    @RequestParam String idParking
-    ) {
+    public String reserveParkingLot(@RequestParam String idUser, @RequestParam String idParking) {
         return reservationService.reserveParkingLot(idUser, idParking);
     }
 
