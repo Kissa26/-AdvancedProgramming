@@ -29,7 +29,7 @@ public class UserController {
     @PostMapping("/signin")
     public ResponseEntity<String> authenticateUser(@RequestParam String email, @RequestParam String passwd){
 
-        String status = userService.signin(email, passwd);
+        String status = userService.signIn(email, passwd);
 
         return ResponseEntity.ok().body(status);
     }

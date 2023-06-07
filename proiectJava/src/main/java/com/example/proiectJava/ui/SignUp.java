@@ -11,7 +11,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class SignUp extends JPanel {
-    JFrame parent;
+    MainWindow parent;
     JLabel lEmail = new JLabel("Email:");
     JLabel lPassword = new JLabel("Password:");
     JLabel lRewritePassword = new JLabel("Rewrite password:");
@@ -22,7 +22,7 @@ public class SignUp extends JPanel {
     JButton bLogin = new JButton("Login");
     Boolean isLogin;
     Image img;
-    public SignUp(JFrame parent, boolean isLogin) {
+    public SignUp(MainWindow parent, boolean isLogin) {
         this.parent = parent;
         this.isLogin = isLogin;
 
@@ -56,7 +56,7 @@ public class SignUp extends JPanel {
                 validate();
                 repaint();
             } else {
-                System.out.println("S a apasat login");
+                performSignInAction(tfEmail.getText(), new String(pfPassword.getPassword()));
             }
         });
 
@@ -73,6 +73,10 @@ public class SignUp extends JPanel {
 
     public void InitUi() {
         removeAll();
+
+        tfEmail.setText("");
+        pfPassword.setText("");
+        pfRewritePassword.setText("");
 
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.WEST;
@@ -119,19 +123,13 @@ public class SignUp extends JPanel {
 
     private void performRegisterAction(String email, String password, String confirmPasswd) {
         try {
-            URL url = new URL("http://localhost:8081/register");
+            String urlString = "http://localhost:8081/register";
+            String fullUrl = urlString + "?email=" + email + "&passwd=" + password + "&confirmPasswd=" + confirmPasswd;
+            URL url = new URL(fullUrl);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type", "application/json");
-            String requestBody = ("{\"email\": \"" + email +
-                    "\", \"passwd\": \"" + password +
-                    "\", \"confirmPasswd\": \"" + confirmPasswd + "\"}");
             connection.setDoOutput(true);
-
-            OutputStream outputStream = connection.getOutputStream();
-            outputStream.write(requestBody.getBytes());
-            outputStream.flush();
-            outputStream.close();
 
             int responseCode = connection.getResponseCode();
 
@@ -143,17 +141,46 @@ public class SignUp extends JPanel {
             }
             reader.close();
 
-            if (responseCode == HttpURLConnection.HTTP_OK) {
+            if (responseCode == HttpURLConnection.HTTP_OK & response.toString().equals("User registered successfully!")) {
                 setLogin(true);
                 InitUi();
                 validate();
                 repaint();
             }
-
             JOptionPane.showMessageDialog(this, response);
         } catch (IOException e) {
             System.err.println(e.getMessage());
-            JOptionPane.showMessageDialog(this, "An error occurred inr registration");
+            JOptionPane.showMessageDialog(this, "An error occurred in registration");
+        }
+    }
+
+    private void performSignInAction(String email, String passwd) {
+        try {
+            String urlString = "http://localhost:8081/signin";
+            String fullUrl = urlString + "?email=" + email + "&passwd=" + passwd;
+            URL url = new URL(fullUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setDoOutput(true);
+
+            int responseCode = connection.getResponseCode();
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            StringBuilder response = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                response.append(line);
+            }
+            reader.close();
+
+            if (responseCode == HttpURLConnection.HTTP_OK & response.toString().equals("User signed-in successfully!")) {
+                parent.changeView("reserve");
+            }
+            JOptionPane.showMessageDialog(this, response);
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+            JOptionPane.showMessageDialog(this, "An error occurred in sign-in");
         }
     }
 }

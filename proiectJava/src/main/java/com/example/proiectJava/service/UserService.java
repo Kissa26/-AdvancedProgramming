@@ -15,39 +15,33 @@ public class UserService {
     @Autowired
     private UserRepo userRepo;
 
-    public String register(String email, String passwd,String confirmPasswd) {
-
-
+    public String register(String email, String passwd, String confirmPasswd) {
         UserEntity userOpt = userRepo.findFirstByMail(email);
 
-
-        if (userOpt!=null) {
+        if (userOpt != null) {
             return "The email already exists!";
         }
-        if(!confirmPasswd.equals(passwd))
-        {
+        if (!confirmPasswd.equals(passwd)) {
             return "Passwords do not match";
         }
-        User userNew= new User(email,passwd,true);
+        User userNew = new User(email, passwd, true);
         addUser(userNew);
-        return "User signed-in successfully!";
+        return "User registered successfully!";
     }
-    public String signin(String passwd,String email) {
 
-        Optional<UserEntity> userOpt = userRepo.findById(email);
+    public String signIn(String email, String passwd) {
+        UserEntity userOpt = userRepo.findFirstByMail(email);
 
-        if (userOpt.isEmpty()) {
+        if (userOpt == null) {
             return "The email is not in the database!";
         }
-        UserEntity userEntity = userOpt.get();
-        if(!userEntity.getPassword().equals(passwd))
-        {
+        if (!userOpt.getPassword().equals(passwd)) {
             return "Incorrect password";
         }
         return "User signed-in successfully!";
     }
-    public String addUser(User user) {
 
+    public String addUser(User user) {
         userRepo.save(new UserEntity(user.getEmail(), user.getPassword(), user.isLoged()));
         return "Successfully registered!";
     }

@@ -8,27 +8,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReserveParking extends JPanel {
-    JFrame parent;
+    MainWindow parent;
     JPanel parkingAvailable = new JPanel(new FlowLayout());
-    JButton bReserve = new JButton("Reserve spot in this parking");
+    JButton bReserve = new JButton();
     Boolean isAlreadyReserved;
     Image img;
 
 
-    public ReserveParking(JFrame parent) {
+    public ReserveParking(MainWindow parent) {
         this.parent = parent;
 
         ImageIcon image = new ImageIcon("src/main/resources/background.png");
         img = image.getImage();
         setLayout(new GridBagLayout());
-        ParkingEntity park = new ParkingEntity();
-        park.setName("Independentei");
-        park.setMaxParkingLot(25);
-        park.setCurrentParkingLot(12);
-        List<ParkingEntity> something = new ArrayList<>();
-        for(int i = 0; i < 10; i++)
-            something.add(park);
-        InitUi(something, false);
     }
 
     public void InitUi(List<ParkingEntity> parkings, Boolean isAlreadyParked) {
