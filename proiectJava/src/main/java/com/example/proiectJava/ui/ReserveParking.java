@@ -202,7 +202,7 @@ public class ReserveParking extends JPanel {
             }
             reader.close();
 
-            if (responseCode == HttpURLConnection.HTTP_OK) {
+            if (responseCode == HttpURLConnection.HTTP_OK && !response.toString().equals("Parking is full")) {
                 isAlreadyReserved = true;
                 InitUi();
                 validate();
