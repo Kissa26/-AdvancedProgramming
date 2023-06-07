@@ -15,14 +15,16 @@ public class UserService {
     @Autowired
     private UserRepo userRepo;
 
-    public String register(String passwd,String email, String confirmpasswd) {
+    public String register(String email, String passwd,String confirmPasswd) {
 
-        Optional<UserEntity> userOpt = userRepo.findById(email);
 
-        if (userOpt.isPresent()) {
+        UserEntity userOpt = userRepo.findFirstByMail(email);
+
+
+        if (userOpt!=null) {
             return "The email already exists!";
         }
-        if(!passwd.equals(confirmpasswd))
+        if(!confirmPasswd.equals(passwd))
         {
             return "Passwords do not match";
         }
